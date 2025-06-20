@@ -1,14 +1,14 @@
-import useTimer, {TimerStatus} from "./hooks/useTimer.ts";
+import styles from "./Timer.module.css"
 
-export default function Timer(){
-  const {date, reset, toggle, status} = useTimer()
 
+type Props = {
+  time: string
+}
+
+export default function Timer({time}: Props){
   return (
-    <>
-      <p>{date}</p>
-      <button onClick={toggle}>{status == TimerStatus.PLAYING ? "pause" : "play"}</button>
-      <br/>
-      <button onClick={reset}>reset</button>
-    </>
+      <p className={styles.time}>
+        <time>{time}</time>
+      </p>
   )
 }

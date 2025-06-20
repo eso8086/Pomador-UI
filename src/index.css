@@ -1,3 +1,5 @@
+@import 'assets/font/font.css';
+
 *, *::after, *::before{
   margin: 0;
   padding: 0;
@@ -15,4 +17,26 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+
+body{
+  --tm-1: #c1121f;
+  --tm-2: #780000;
+  --wh-1: #fdf0d5;
+
+  font-family: "Dongle", sans;
+  font-weight: 400;
+
+  background-color: var(--tm-1);
+  color: var(--wh-1);
+}
+
+
+button{
+  background-color: unset;
+  border: unset;
+  &:hover{
+    cursor: pointer;
+  }
 }

@@ -1,46 +1,46 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export enum TimerStatus {
   PLAYING,
-  PAUSED
+  PAUSED,
+  COMPLETED
 }
 
 export default function useTimer(){
-  const timestamp = useRef(
-    (()=>{
-      const d = new Date;
-      d.setSeconds(0);
-      d.setMinutes(0);
-      return d;
-    })()
-  );
 
-  const getDateString = useCallback(()=>{
-    return `${timestamp.current.getMinutes()}:${timestamp.current.getSeconds()}`;
-  }, []);
 
   const [seconds, setSeconds] = useState(0);
+  const [round, setRound] = useState(1)
+
+  const getDateString = useCallback(()=>{
+    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const s =  (seconds % 60).toString().padStart(2, "0");
+    return `${m.padStart(2, "0")}:${s.padStart(2, "0")}`;
+  }, [seconds]);
+
   const [status, setStatus] = useState(TimerStatus.PAUSED);
-  const [date, setDate] = useState(getDateString)
+  const [time, setDate] = useState(getDateString)
 
 
   useEffect(()=>{
-
     setDate(getDateString);
-    timestamp.current.setSeconds(seconds);
+
+    let id: number;
 
     if(status == TimerStatus.PLAYING){
-
-      const id = setInterval(()=>{
+      id = setInterval(()=>{
         setSeconds(seconds+1);
-      }, 100);
-
-      return ()=>{
-        clearInterval(id)
-      }
+      }, 1);
     }
 
-  }, [status, seconds, getDateString]);
+    if(status != TimerStatus.COMPLETED && seconds >= 60 * 20){
+      setStatus(TimerStatus.COMPLETED);
+    }
+
+    return ()=>{
+      clearInterval(id);
+    }
+  }, [status, seconds, getDateString, round]);
 
   function toggle(){
     if(status == TimerStatus.PLAYING){
@@ -48,6 +48,11 @@ export default function useTimer(){
     }
     if(status == TimerStatus.PAUSED){
       setStatus(TimerStatus.PLAYING)
+    }
+    if(status == TimerStatus.COMPLETED){
+      reset();
+      setRound(round + 1)
+      setStatus(TimerStatus.PLAYING);
     }
   }
 
@@ -57,9 +62,10 @@ export default function useTimer(){
   }
 
   return {
-    date,
+    time,
     toggle,
     reset,
-    status
+    status,
+    round,
   }
 }

@@ -1,3 +1,18 @@
-.test{
-  color: red;
+main{
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
 }
+
+.timer-controls{
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  justify-content: center;
+  gap: 1em;
+
+  & .round-count{
+    font-size: 2em;
+    text-align: center;
+  }
+}
+

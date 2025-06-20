@@ -1,0 +1,17 @@
+@font-face{
+    font-family: "Dongle";
+    font-weight: 300;
+    src: url("Dongle-Light.ttf") format("truetype");
+}
+
+@font-face{
+    font-family: "Dongle";
+    font-weight: 400;
+    src: url("Dongle-Regular.ttf") format("truetype");
+}
+
+@font-face{
+    font-family: "Dongle";
+    font-weight: 700;
+    src: url("Dongle-Bold.ttf") format("truetype");
+}
