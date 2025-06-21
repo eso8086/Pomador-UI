@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
+import useAudio from "./useAudio.ts";
 
 export enum TimerStatus {
   PLAYING,
@@ -8,6 +9,7 @@ export enum TimerStatus {
 
 export default function useTimer(){
 
+  const {play, stop} = useAudio("time_is_up");
 
   const [seconds, setSeconds] = useState(0);
   const [round, setRound] = useState(1)
@@ -30,10 +32,11 @@ export default function useTimer(){
     if(status == TimerStatus.PLAYING){
       id = setInterval(()=>{
         setSeconds(seconds+1);
-      }, 1);
+      }, 1000);
     }
 
     if(status != TimerStatus.COMPLETED && seconds >= 60 * 20){
+      play();
       setStatus(TimerStatus.COMPLETED);
     }
 
@@ -50,6 +53,7 @@ export default function useTimer(){
       setStatus(TimerStatus.PLAYING)
     }
     if(status == TimerStatus.COMPLETED){
+      stop();
       reset();
       setRound(round + 1)
       setStatus(TimerStatus.PLAYING);
