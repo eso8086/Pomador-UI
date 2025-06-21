@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
+import {setInterval, clearInterval} from "worker-timers";
 import useAudio from "./useAudio.ts";
 
 export enum TimerStatus {
@@ -9,9 +10,10 @@ export enum TimerStatus {
 
 export default function useTimer(){
 
-  const {play, stop} = useAudio("time_is_up");
 
+  const {play, stop} = useAudio("time_is_up");
   const [seconds, setSeconds] = useState(0);
+  // const secondsRef = useRef(0);
   const [round, setRound] = useState(1)
 
   const getDateString = useCallback(()=>{
@@ -31,7 +33,7 @@ export default function useTimer(){
 
     if(status == TimerStatus.PLAYING){
       id = setInterval(()=>{
-        setSeconds(seconds+1);
+        setSeconds(seconds + 1);
       }, 1000);
     }
 
